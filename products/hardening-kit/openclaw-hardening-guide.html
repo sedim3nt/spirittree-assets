@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<style>
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 0 auto; padding: 40px 20px; color: #1a1a1a; line-height: 1.7; }
+h1 { font-size: 28px; border-bottom: 3px solid #2d5016; padding-bottom: 12px; }
+h2 { font-size: 22px; color: #2d5016; margin-top: 40px; border-bottom: 1px solid #e0e0e0; padding-bottom: 8px; }
+h3 { font-size: 18px; color: #333; margin-top: 28px; }
+code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-size: 14px; }
+pre { background: #1a1a2e; color: #e0e0e0; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 13px; }
+pre code { background: none; color: inherit; padding: 0; }
+hr { border: none; border-top: 2px solid #e0e0e0; margin: 32px 0; }
+li { margin-bottom: 6px; }
+</style></head><body><h1 id="the-openclaw-hardening-guide">The OpenClaw Hardening Guide</h1>
+<h2 id="a-complete-security-audit-lockdown-checklist-for-ai-agent-deployments">A Complete Security Audit &amp; Lockdown Checklist for AI Agent Deployments</h2>
+<p><strong>By SpiritTree Operations</strong>
+<strong>Version 1.0 — March 2026</strong></p>
+<hr />
+<h2 id="why-this-guide-exists">Why This Guide Exists</h2>
+<p>You gave an AI agent the keys to your computer. It can read your files, run commands, send messages, browse the web, and access your APIs. That's powerful. It's also dangerous if you haven't locked it down.</p>
+<p>This guide is the result of running a production OpenClaw deployment with 8 agents across Telegram, email, Instagram, X, Facebook, GitHub, Stripe, and Supabase — 24/7 for weeks. We found the attack surfaces. We found the failure modes. We fixed them.</p>
+<p>Now you can too.</p>
+<hr />
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li>Gateway Authentication &amp; Network Security</li>
+<li>File Permission Lockdown</li>
+<li>Browser &amp; Payment Isolation</li>
+<li>Skill File Security Audit</li>
+<li>Agent Scope Restriction</li>
+<li>API Key &amp; Credential Hygiene</li>
+<li>Monitoring &amp; Alerting</li>
+<li>Monthly Security Review Checklist</li>
+<li>Incident Response Playbook</li>
+<li>Advanced: Reverse Proxy &amp; Rate Limiting</li>
+</ol>
+<hr />
+<h2 id="1-gateway-authentication-network-security">1. Gateway Authentication &amp; Network Security</h2>
+<h3 id="the-risk">The Risk</h3>
+<p>Your OpenClaw gateway is a WebSocket server. If it's exposed to the network without auth, anyone who can reach it can send commands to your agent.</p>
+<p><strong>Real incident:</strong> A Limitless Podcast user documented brute-force attempts on their gateway within hours of exposing it to the internet.</p>
+<h3 id="immediate-actions">Immediate Actions</h3>
+<h4 id="verify-gateway-is-loopback-only">✅ Verify gateway is loopback-only</h4>
+<pre><code class="language-bash">openclaw gateway status
+# Look for: &quot;bind=loopback (127.0.0.1)&quot;
+# If it says &quot;bind=lan&quot; or &quot;bind=auto&quot; — you're exposed
+</code></pre>
+<h4 id="ensure-token-authentication-is-enabled">✅ Ensure token authentication is enabled</h4>
+<pre><code class="language-bash"># Check current auth mode
+cat ~/.openclaw/openclaw.json | grep -A2 '&quot;gateway&quot;'
+# Should show: &quot;auth&quot;: &quot;token&quot;
+</code></pre>
+<p>If no token is set:</p>
+<pre><code class="language-bash">openclaw doctor --generate-gateway-token
+</code></pre>
+<h4 id="if-you-need-remote-access-use-tailscale-not-port-forwarding">✅ If you need remote access, use Tailscale (not port forwarding)</h4>
+<pre><code class="language-bash">openclaw gateway --tailscale serve
+# This creates a private tunnel — never expose port 18789 publicly
+</code></pre>
+<h4 id="never-do-this">❌ Never do this</h4>
+<pre><code class="language-bash"># DANGEROUS: exposes gateway to all network interfaces
+openclaw gateway --bind lan  # Only if you have firewall rules
+openclaw gateway --bind auto # Even worse — tries everything
+</code></pre>
+<h3 id="verification">Verification</h3>
+<pre><code class="language-bash"># Confirm only localhost is listening
+lsof -nP -iTCP:18789 -sTCP:LISTEN
+# Should show: 127.0.0.1:18789, NOT *:18789 or 0.0.0.0:18789
+</code></pre>
+<hr />
+<h2 id="2-file-permission-lockdown">2. File Permission Lockdown</h2>
+<h3 id="the-risk_1">The Risk</h3>
+<p>Your agent can read and write any file your user account can access. That includes <code>~/.ssh/</code>, <code>~/.aws/</code>, browser profiles with saved passwords, and your <code>.env</code> files with API keys.</p>
+<p><strong>Real incident:</strong> Skill file injection demonstrated live — a malicious SKILL.md containing hidden instructions caused the agent to exfiltrate credential files.</p>
+<h3 id="immediate-actions_1">Immediate Actions</h3>
+<h4 id="make-critical-agent-files-read-only">✅ Make critical agent files read-only</h4>
+<pre><code class="language-bash"># These files control your agent's identity and behavior
+chmod 644 ~/.openclaw/workspace/SOUL.md
+chmod 644 ~/.openclaw/workspace/AGENTS.md
+chmod 644 ~/.openclaw/workspace/IDENTITY.md
+chmod 644 ~/.openclaw/workspace/MEMORY.md
+</code></pre>
+<h4 id="restrict-workspace-scope">✅ Restrict workspace scope</h4>
+<p>In <code>~/.openclaw/openclaw.json</code>, verify <code>workspace</code> points to a dedicated directory — not your home folder:</p>
+<pre><code class="language-json">{
+  &quot;workspace&quot;: &quot;~/.openclaw/workspace&quot;
+}
+</code></pre>
+<h4 id="audit-what-your-agent-can-reach">✅ Audit what your agent can reach</h4>
+<pre><code class="language-bash"># Check what sensitive files exist in reachable paths
+ls -la ~/.ssh/
+ls -la ~/.aws/
+ls -la ~/.env
+find ~ -name &quot;*.env&quot; -maxdepth 3 2&gt;/dev/null
+find ~ -name &quot;credentials*&quot; -maxdepth 3 2&gt;/dev/null
+</code></pre>
+<h4 id="use-exec-approvals-for-dangerous-commands">✅ Use exec approvals for dangerous commands</h4>
+<p>OpenClaw has an exec approval system. Enable it:</p>
+<pre><code class="language-bash"># Check current approvals policy
+cat ~/.openclaw/openclaw.json | grep -A5 '&quot;exec&quot;'
+</code></pre>
+<p>Configure approval requirements for:
+- Any command containing <code>rm -rf</code>
+- Any command accessing <code>~/.ssh/</code> or <code>~/.aws/</code>
+- Any <code>sudo</code> commands
+- Any <code>curl</code> or <code>wget</code> to external URLs</p>
+<hr />
+<h2 id="3-browser-payment-isolation">3. Browser &amp; Payment Isolation</h2>
+<h3 id="the-risk_2">The Risk</h3>
+<p>If your agent has browser control and you have saved credit cards or passwords in your browser profile, the agent can accidentally (or maliciously, via injection) trigger autofill.</p>
+<p><strong>Real incident:</strong> An OpenClaw user's agent accidentally purchased items because the browser had saved payment methods that autofilled during a web automation task.</p>
+<h3 id="immediate-actions_2">Immediate Actions</h3>
+<h4 id="use-a-dedicated-browser-profile-for-agent-work">✅ Use a dedicated browser profile for agent work</h4>
+<pre><code class="language-bash"># OpenClaw creates its own profile by default
+# Verify it's isolated:
+openclaw browser profiles
+# Should show: &quot;openclaw&quot; profile, NOT your personal Chrome profile
+</code></pre>
+<h4 id="remove-saved-payment-methods-from-the-agents-browser-profile">✅ Remove saved payment methods from the agent's browser profile</h4>
+<ol>
+<li>Open the OpenClaw browser: <code>openclaw browser start</code></li>
+<li>Navigate to <code>chrome://settings/payments</code></li>
+<li>Delete ALL saved payment methods</li>
+<li>Disable "Save and fill payment methods"</li>
+</ol>
+<h4 id="remove-saved-passwords-from-the-agents-browser-profile">✅ Remove saved passwords from the agent's browser profile</h4>
+<ol>
+<li>Navigate to <code>chrome://settings/passwords</code></li>
+<li>Delete ALL saved passwords</li>
+<li>Disable "Offer to save passwords"</li>
+</ol>
+<h4 id="disable-autofill-entirely">✅ Disable autofill entirely</h4>
+<p>Navigate to <code>chrome://settings/addresses</code> and disable address autofill.</p>
+<hr />
+<h2 id="4-skill-file-security-audit">4. Skill File Security Audit</h2>
+<h3 id="the-risk_3">The Risk</h3>
+<p>OpenClaw skills are markdown files with natural language instructions. A malicious skill can embed instructions that:
+- Override the agent's safety responses
+- Request access to sensitive files
+- Send data to external servers
+- Install additional malicious skills</p>
+<p><strong>Real incident:</strong> Demonstrated live on Limitless Podcast — a crafted SKILL.md bypassed Claude's safety entirely.</p>
+<h3 id="immediate-actions_3">Immediate Actions</h3>
+<h4 id="audit-all-installed-skills">✅ Audit all installed skills</h4>
+<pre><code class="language-bash"># List all skills
+openclaw skills list
+
+# For each skill, read the SKILL.md and check for:
+# 1. Instructions to access files outside the skill's scope
+# 2. Instructions to send data to external URLs
+# 3. &quot;Ignore&quot; or &quot;override&quot; language
+# 4. Hidden content (HTML comments, zero-width characters)
+# 5. Base64 encoded strings
+</code></pre>
+<h4 id="check-for-hidden-content-in-skill-files">✅ Check for hidden content in skill files</h4>
+<pre><code class="language-bash"># Find zero-width characters (common in prompt injection)
+grep -rP '[\x{200B}\x{200C}\x{200D}\x{FEFF}]' ~/.openclaw/skills/ 2&gt;/dev/null
+
+# Find HTML comments
+grep -r '&lt;!--' ~/.openclaw/skills/
+
+# Find base64 strings (40+ chars of alphanumeric + /+=)
+grep -rP '[A-Za-z0-9+/]{40,}={0,2}' ~/.openclaw/skills/
+</code></pre>
+<h4 id="only-install-skills-from-trusted-sources">✅ Only install skills from trusted sources</h4>
+<ul>
+<li>Official OpenClaw skills (bundled with the CLI)</li>
+<li>Skills you've personally reviewed line-by-line</li>
+<li>Skills from known, verified authors</li>
+</ul>
+<h4 id="never-install-a-skill-without-reading-every-line">❌ Never install a skill without reading every line</h4>
+<p>A skill file is an instruction set for your agent. Treat it like you'd treat a shell script from the internet — read before you run.</p>
+<hr />
+<h2 id="5-agent-scope-restriction">5. Agent Scope Restriction</h2>
+<h3 id="the-risk_4">The Risk</h3>
+<p>Without explicit boundaries, your agent has the same access as your user account. It can read personal files, access financial accounts, and send messages as you.</p>
+<h3 id="immediate-actions_4">Immediate Actions</h3>
+<h4 id="define-explicit-boundaries-in-agentsmd">✅ Define explicit boundaries in AGENTS.md</h4>
+<p>Add a Security section:</p>
+<pre><code class="language-markdown">## Security Boundaries
+- Never access files outside ~/.openclaw/workspace/ without explicit approval
+- Never access ~/.ssh/, ~/.aws/, ~/Library/Keychains/
+- Never run sudo commands
+- Never modify LaunchAgents or system services without approval
+- Never send external messages (email, social, chat) without approval
+- Never access browser sessions with saved credentials
+</code></pre>
+<h4 id="use-the-multi-step-approval-rule">✅ Use the multi-step approval rule</h4>
+<p>Add to AGENTS.md:</p>
+<pre><code class="language-markdown">## Multi-Step Approval
+Any operation touching &gt;3 files must present a plan and wait for
+explicit human confirmation before executing.
+</code></pre>
+<h4 id="restrict-outbound-messaging">✅ Restrict outbound messaging</h4>
+<pre><code class="language-markdown">## Outbound Message Rules
+- Never send emails without human review
+- Never post to social media without human review (except approved cron jobs)
+- Never DM anyone on any platform
+</code></pre>
+<hr />
+<h2 id="6-api-key-credential-hygiene">6. API Key &amp; Credential Hygiene</h2>
+<h3 id="the-risk_5">The Risk</h3>
+<p>API keys in <code>.env</code> files, hardcoded tokens in scripts, and credentials in plain text are all accessible to your agent.</p>
+<h3 id="immediate-actions_5">Immediate Actions</h3>
+<h4 id="audit-your-env-file">✅ Audit your .env file</h4>
+<pre><code class="language-bash"># What's in your .env?
+wc -l ~/.openclaw/workspace/.env
+# Each line is a potential attack surface
+</code></pre>
+<h4 id="minimize-exposed-credentials">✅ Minimize exposed credentials</h4>
+<p>Only include credentials the agent actually needs. Remove:
+- Personal email passwords (use app-specific passwords instead)
+- Banking API tokens (unless the agent needs them)
+- Admin/root credentials</p>
+<h4 id="use-openclaws-secrets-management">✅ Use OpenClaw's secrets management</h4>
+<pre><code class="language-bash"># Reload secrets without exposing them in logs
+openclaw secrets reload
+</code></pre>
+<h4 id="enable-disk-encryption">✅ Enable disk encryption</h4>
+<ul>
+<li><strong>macOS:</strong> FileVault (System Settings → Privacy &amp; Security → FileVault)</li>
+<li><strong>Linux:</strong> LUKS full-disk encryption</li>
+<li><strong>Windows:</strong> BitLocker</li>
+</ul>
+<p>If your disk isn't encrypted, your credentials are plaintext on the physical drive.</p>
+<hr />
+<h2 id="7-monitoring-alerting">7. Monitoring &amp; Alerting</h2>
+<h3 id="the-risk_6">The Risk</h3>
+<p>Without monitoring, you won't know your agent is compromised until the damage is done.</p>
+<h3 id="immediate-actions_6">Immediate Actions</h3>
+<h4 id="set-up-a-gateway-watchdog">✅ Set up a gateway watchdog</h4>
+<p>Create a script that checks gateway health every 5 minutes and auto-restarts if down:</p>
+<pre><code class="language-bash">#!/bin/bash
+# gateway-watchdog.sh
+if ! openclaw health --json 2&gt;/dev/null | grep -q '&quot;ok&quot;'; then
+  openclaw doctor --fix --non-interactive --yes
+  sleep 3
+  openclaw gateway restart
+fi
+</code></pre>
+<p>Schedule via LaunchAgent (macOS) or cron (Linux) every 5 minutes.</p>
+<h4 id="monitor-agent-actions">✅ Monitor agent actions</h4>
+<p>Check gateway logs regularly:</p>
+<pre><code class="language-bash">openclaw logs --tail 100
+# Look for unexpected tool calls, especially:
+# - exec commands you didn't request
+# - browser actions on financial sites
+# - outbound messages you didn't approve
+</code></pre>
+<h4 id="set-up-log-rotation">✅ Set up log rotation</h4>
+<pre><code class="language-bash"># Prevent log files from filling your disk
+# Logs are at /tmp/openclaw/ by default
+find /tmp/openclaw/ -name &quot;*.log&quot; -mtime +7 -delete
+</code></pre>
+<hr />
+<h2 id="8-monthly-security-review-checklist">8. Monthly Security Review Checklist</h2>
+<p>Run this checklist on the 1st of every month:</p>
+<ul>
+<li>[ ] Run <code>openclaw security audit --deep</code></li>
+<li>[ ] Run <code>openclaw update status</code> — install security updates</li>
+<li>[ ] Audit all installed skills for new/changed files</li>
+<li>[ ] Verify gateway is still loopback-only</li>
+<li>[ ] Verify token authentication is enabled</li>
+<li>[ ] Check browser profile for saved passwords/payments</li>
+<li>[ ] Review .env file — remove any credentials no longer needed</li>
+<li>[ ] Check exec approval log for unexpected commands</li>
+<li>[ ] Verify disk encryption is still enabled</li>
+<li>[ ] Review Anthropic/OpenAI/Google API terms for new restrictions</li>
+<li>[ ] Rotate any API keys older than 90 days</li>
+<li>[ ] Test the gateway watchdog (stop gateway, verify auto-restart)</li>
+</ul>
+<hr />
+<h2 id="9-incident-response-playbook">9. Incident Response Playbook</h2>
+<h3 id="if-you-suspect-your-agent-has-been-compromised">If you suspect your agent has been compromised:</h3>
+<ol>
+<li>
+<p><strong>Stop the gateway immediately</strong>
+   <code>bash
+   openclaw gateway stop</code></p>
+</li>
+<li>
+<p><strong>Review recent actions</strong>
+   <code>bash
+   openclaw logs --tail 500 | grep -E "(exec|browser|message|send)"</code></p>
+</li>
+<li>
+<p><strong>Check for unauthorized file changes</strong>
+   <code>bash
+   # If you use git in your workspace
+   cd ~/.openclaw/workspace &amp;&amp; git diff
+   git log --oneline -20</code></p>
+</li>
+<li>
+<p><strong>Rotate all credentials</strong></p>
+</li>
+<li>Gateway token</li>
+<li>API keys in .env</li>
+<li>
+<p>Any tokens the agent had access to</p>
+</li>
+<li>
+<p><strong>Audit skill files</strong>
+   <code>bash
+   # Check modification times
+   find ~/.openclaw/skills/ -name "SKILL.md" -newer /tmp/last-audit 2&gt;/dev/null</code></p>
+</li>
+<li>
+<p><strong>Restart with clean state</strong>
+   <code>bash
+   openclaw doctor --fix --non-interactive --yes
+   openclaw gateway restart</code></p>
+</li>
+</ol>
+<hr />
+<h2 id="10-advanced-reverse-proxy-rate-limiting">10. Advanced: Reverse Proxy &amp; Rate Limiting</h2>
+<h3 id="if-you-must-expose-the-gateway-to-the-internet">If you MUST expose the gateway to the internet:</h3>
+<h4 id="option-a-tailscale-recommended">Option A: Tailscale (recommended)</h4>
+<pre><code class="language-bash">openclaw gateway --tailscale serve
+# Private tunnel, encrypted, authenticated via Tailscale ACLs
+</code></pre>
+<h4 id="option-b-nginx-reverse-proxy-with-rate-limiting">Option B: Nginx reverse proxy with rate limiting</h4>
+<pre><code class="language-nginx">upstream openclaw {
+    server 127.0.0.1:18789;
+}
+
+server {
+    listen 443 ssl;
+    server_name openclaw.yourdomain.com;
+
+    # Rate limiting
+    limit_req_zone $binary_remote_addr zone=openclaw:10m rate=10r/s;
+    limit_req zone=openclaw burst=20 nodelay;
+
+    # IP allowlist (optional but recommended)
+    allow 192.168.1.0/24;  # Your LAN
+    deny all;
+
+    location / {
+        proxy_pass http://openclaw;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection &quot;upgrade&quot;;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+</code></pre>
+<h4 id="option-c-cloudflare-tunnel">Option C: Cloudflare Tunnel</h4>
+<pre><code class="language-bash">cloudflared tunnel --url ws://127.0.0.1:18789
+# Zero-trust, no open ports, DDoS protection included
+</code></pre>
+<hr />
+<h2 id="quick-start-checklist">Quick Start Checklist</h2>
+<p>If you do nothing else, do these 5 things right now:</p>
+<ol>
+<li>✅ Verify gateway is loopback-only: <code>openclaw gateway status</code></li>
+<li>✅ Enable token auth: <code>openclaw doctor --generate-gateway-token</code></li>
+<li>✅ Remove saved payments from agent browser profile</li>
+<li>✅ Make SOUL.md and AGENTS.md read-only: <code>chmod 644</code></li>
+<li>✅ Run the security audit: <code>openclaw security audit --deep</code></li>
+</ol>
+<p>Time required: 10 minutes. Risk reduction: massive.</p>
+<hr />
+<h2 id="about-spirittree">About SpiritTree</h2>
+<p>SpiritTree runs a production 8-agent AI operations stack — 24/7 across content, publishing, research, and system administration. This guide comes from real operational experience, not theory.</p>
+<p>For a done-for-you security audit of your OpenClaw deployment: <a href="https://blueprint.spirittree.dev">blueprint.spirittree.dev</a></p>
+<hr />
+<p><em>The network remembers what the empire forgets.</em>
+<em>— SpiritTree Operations</em></p></body></html>
