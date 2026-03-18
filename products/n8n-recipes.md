@@ -2,7 +2,25 @@
 
 **Version:** 1.0 | **Level:** Intermediate | **Setup Time:** 15-30 minutes per workflow
 
-8 production n8n workflows for AI agent operations. Tweet poster, Substack publisher, Instagram poster, daily digest, content distribution, webhook handlers, health monitoring, and scheduled tasks. Each includes setup instructions.
+8 production n8n workflows for AI agent operations — tweet poster, Substack publisher, Instagram poster, daily digest, content distribution, webhook handlers, health monitoring, and scheduled tasks. Each includes complete setup instructions and copy-paste node configurations.
+
+---
+
+## What's In This Package
+
+- **Workflow 1:** Tweet Poster — schedule and post to X/Twitter with OAuth 1.0
+- **Workflow 2:** Substack Publisher — create drafts + publish via API with SID cookie auth
+- **Workflow 3:** Instagram Poster — Meta Graph API image publishing with container flow
+- **Workflow 4:** Daily Digest — compile multi-source briefings delivered at 7 AM
+- **Workflow 5:** Webhook Handler — process Stripe, GitHub, Cal.com, and custom webhooks
+- **Workflow 6:** Health Monitor — 5-minute service checks with Telegram alerts
+- **Workflow 7:** Content Distribution — auto-distribute Substack articles to all platforms
+- **Workflow 8:** Scheduled Tasks — universal template for any recurring operation
+- Error handling patterns (alert throttling, retry logic)
+- Troubleshooting guide for common failures
+- n8n LaunchAgent config for macOS (runs on startup)
+
+---
 
 ---
 
