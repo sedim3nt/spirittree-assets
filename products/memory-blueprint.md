@@ -176,7 +176,7 @@ Lossless Context Management — prevents information loss during compaction.
 - **Tweet:** https://x.com/steipete/status/2032861327967072671
 - **Verdict:** Directly addresses THE core pain point (compaction amnesia). steipete's endorsement carries weight. High priority to evaluate.
 
-**16. MuninnDB** ⭐⭐⭐⭐ (NEW — field-tested by Suede/Sedim3nt)
+**16. MuninnDB** ⭐⭐⭐⭐ (NEW — field-tested by Suede/Orchard)
 Local graph memory with MCP server and web UI.
 - **What:** Persistent graph-based memory layer with built-in MCP server, web UI for browsing, multiple vault support
 - **Key features:** MCP server (any MCP-compatible tool can query it), web UI for visual browsing, multiple vaults (work/personal/project), runs locally on port 8475-8750, OpenAI embedder for semantic search
