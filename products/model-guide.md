@@ -1,3 +1,24 @@
+# OpenClaw Model Guide — Choose the Right AI for Every Task
+
+**Version:** 1.0 | **Level:** Beginner | **Setup Time:** 10 minutes (reading time)
+
+Stop burning money on the wrong models. This guide gives you the full comparison matrix, task routing rules, and a monthly cost calculator — so you know exactly which model to use for every job and what it'll cost.
+
+---
+
+## What's In This Package
+
+- Full model comparison matrix (Claude Opus, Sonnet, Haiku, GPT-5.4, Gemini 2.5 Pro)
+- Pricing breakdown: API per-token vs. flat subscription rate analysis
+- Task routing rules (which tasks belong to which tier)
+- Monthly cost calculator template
+- Real production examples from a live multi-agent setup
+- Cost optimization playbook (common waste patterns + fixes)
+- Model selection decision tree
+- How to switch models per agent role in OpenClaw config
+
+---
+
 # OpenClaw Model Guide
 ## Choosing the Right AI Model for Every Task
 
