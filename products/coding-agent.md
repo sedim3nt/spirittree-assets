@@ -2,7 +2,7 @@
 
 **Version:** 1.0 | **Level:** Advanced | **Setup Time:** 30-45 minutes
 
-Your AI coding partner configured for real work. Blueprint pattern for structured development, tmux workflow for parallel sessions, git workflow templates, and the Ralph loop for iterative refinement. Built on the Granit3 architecture.
+Your AI coding partner configured for real work. Blueprint pattern for structured development, tmux workflow for parallel sessions, git workflow templates, and the Ralph loop for iterative refinement. Built on the Forrest architecture.
 
 ---
 
