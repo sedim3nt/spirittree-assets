@@ -26,7 +26,7 @@ The complete communication architecture for multi-agent OpenClaw systems. Covers
 # Multi-Agent Communication Architecture for OpenClaw
 
 **Compiled:** 2026-03-14
-**Context:** Analysis for Suede/Sedim3nt setup — single CEO agent on Telegram delegating to sub-agents
+**Context:** Analysis for Suede/Orchard setup — single CEO agent on Telegram delegating to sub-agents
 **Audience:** OpenClaw operators running multi-agent systems via Telegram
 
 ---
@@ -51,7 +51,7 @@ Should you run one bot (CEO model) or multiple bots with separate Telegram prese
      │ Telegram DM
      ▼
 ┌──────────────────┐
-│   Sedim3nt (CEO) │  ← Opus 4.6, main session
+│   Orchard (CEO) │  ← Opus 4.6, main session
 │   All context     │
 │   All decisions   │
 └────┬─────┬───────┘
@@ -63,9 +63,9 @@ Should you run one bot (CEO model) or multiple bots with separate Telegram prese
 ```
 
 **How it works:**
-- You talk to Sedim3nt in one chat
+- You talk to Orchard in one chat
 - He spawns sub-agents via `sessions_spawn` or `exec` for specific tasks
-- Sub-agents report back to Sedim3nt, who synthesizes and relays to you
+- Sub-agents report back to Orchard, who synthesizes and relays to you
 - All coordination flows through a single context window
 
 **Strengths:**
@@ -77,10 +77,10 @@ Should you run one bot (CEO model) or multiple bots with separate Telegram prese
 
 **Weaknesses:**
 - **Token economics:** Every sub-agent report gets relayed through Opus ($15/M input, $75/M output). A 2K-token DevOps report costs ~$0.15-0.30 just to relay through the CEO when it could go direct for ~$0.01 on Haiku
-- **Context window pressure:** At 200K tokens, if Sedim3nt is managing 3 active projects + monitoring + personal tasks, compaction hits faster. Each compaction loses specifics
-- **Serial bottleneck:** Sedim3nt processes one turn at a time. If a security alert fires while he's deep in a coding task, the alert waits
-- **Blast radius:** If Sedim3nt's session gets corrupted or stuck, everything stops
-- **Compaction amnesia:** When context compacts, Sedim3nt may forget what sub-agents were working on unless explicitly written to files
+- **Context window pressure:** At 200K tokens, if Orchard is managing 3 active projects + monitoring + personal tasks, compaction hits faster. Each compaction loses specifics
+- **Serial bottleneck:** Orchard processes one turn at a time. If a security alert fires while he's deep in a coding task, the alert waits
+- **Blast radius:** If Orchard's session gets corrupted or stuck, everything stops
+- **Compaction amnesia:** When context compacts, Orchard may forget what sub-agents were working on unless explicitly written to files
 
 ---
 
@@ -105,7 +105,7 @@ Should you run one bot (CEO model) or multiple bots with separate Telegram prese
 
 **How it works:**
 - Create a Telegram supergroup with Forum Topics enabled
-- One bot (Sedim3nt) joins the group
+- One bot (Orchard) joins the group
 - OpenClaw automatically creates separate sessions per topic
 - Each topic gets its own context window, memory, and compaction cycle
 - You post in whichever topic is relevant — the bot responds with domain-specific context
@@ -324,7 +324,7 @@ CEO reads all status files to get a dashboard view without burning tokens on dir
 
 **Step 1: Create a Telegram Supergroup**
 - Create group → Settings → Toggle "Topics" on
-- Add Sedim3nt bot to the group
+- Add Orchard bot to the group
 - Create topics: General, Dev, Ops, Research (or whatever domains you have)
 
 **Step 2: Configure OpenClaw**
@@ -350,10 +350,10 @@ When in General: prioritize saving cross-domain decisions and handoffs.
 
 ---
 
-## Part 6: The Sedim3nt-Specific Recommendation
+## Part 6: The Orchard-Specific Recommendation
 
 Given what Suede described:
-- Sedim3nt is the CEO on Opus (Claude Max primary)
+- Orchard is the CEO on Opus (Claude Max primary)
 - Has Gemini Pro for secondary model access
 - Has Gmail/Google tools + TOTP self-auth
 - Currently single DM chat
@@ -362,7 +362,7 @@ Given what Suede described:
 
 1. **Now:** Keep DM for personal/quick interactions. Create HQ group with topics for structured work.
 
-2. **Month 1:** Add 3-4 topics (Dev, Ops, Research, General). Let Sedim3nt learn to use them. Write BULLETIN.md discipline into AGENTS.md.
+2. **Month 1:** Add 3-4 topics (Dev, Ops, Research, General). Let Orchard learn to use them. Write BULLETIN.md discipline into AGENTS.md.
 
 3. **Month 2:** If any topic is burning significant tokens on routine work (monitoring, daily syncs), consider spinning that into a separate Haiku-powered agent.
 
