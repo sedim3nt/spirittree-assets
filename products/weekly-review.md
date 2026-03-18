@@ -1,144 +1,281 @@
+# Weekly Review System — Your AI-Assisted Weekly Reset
+
+**Version:** 1.0 | **Level:** Beginner | **Setup Time:** 15-20 minutes
+
+A complete weekly review system for AI-assisted operations. Capture what happened, clear the mental queue, set the week ahead, and let your agent prepare the brief before you sit down. Designed for founders and solopreneurs who keep losing time to reviewing what they should be executing.
+
+---
+
+## What's In This Package
+
+- Weekly review prompt template (copy-paste ready for OpenClaw)
+- Automated pre-brief script (agent prepares the review before you read it)
+- Memory update protocol (how to capture the week in persistent files)
+- Goal tracking template (rolling 90-day view)
+- Content queue review (what shipped, what's stuck, what's next)
+- Infrastructure health summary (was anything broken this week)
+- Revenue snapshot section (Stripe, pipeline, client status)
+- Cron job setup for automated Friday 5 PM preparation
+- Customization guide: what to add for your specific operation
+- Integration with MEMORY.md (what to write down vs. let go)
+
+---
+
+## Why Weekly Reviews Fail
+
+Most weekly review systems fail because they require too much manual effort. You have to collect information from 5 different places, remember what happened, and write it all up yourself.
+
+This system flips it: your agent collects the data before you sit down. You read a prepared brief and add judgment, not administrative work.
+
+---
+
+## The Weekly Review Structure
+
+A good weekly review has four parts:
+
+1. **What happened** — factual, from your files and logs
+2. **What matters** — your judgment on what's significant
+3. **What's next** — priorities for the coming week
+4. **What to remember** — anything that needs to survive to next week
+
+Your agent handles part 1 automatically. You handle parts 2-4.
+
+---
+
+## Setup: The Weekly Review Prompt
+
+Save this to `~/.openclaw/workspace/scripts/weekly-review-prompt.md`:
+
+```markdown
+# Weekly Review Prompt
+
+Run this at the start of each weekly review session.
+
+## Agent Instructions
+
+Prepare my weekly review brief. Specifically:
+
+1. **Activity Summary** — Read memory/[LAST_WEEK_DATES].md and summarize:
+   - Major tasks completed
+   - Decisions made
+   - Blockers encountered and resolved
+   - Anything still open
+
+2. **Content Status** — Check content queues and summarize:
+   - What published this week (count by platform)
+   - What's queued and ready
+   - What's stuck or overdue
+   - Engagement/growth if available
+
+3. **Infrastructure Health** — Check the heartbeat logs and summarize:
+   - Any alerts fired this week
+   - Services that went down and recovered
+   - Anything still degraded
+
+4. **Revenue Snapshot** (if Stripe configured):
+   - This week vs. last week
+   - Open pipeline (Gumroad/Lemon Squeezy pending)
+   - Any payment issues
+
+5. **Open Projects** — Read memory/open-projects.md and list:
+   - Active projects with status
+   - Blocked projects
+   - Projects completed this week
+
+Format as a clean brief I can read in 5 minutes.
+After I've read it, ask: "What do you want to carry forward to next week?"
+```
+
+---
+
+## The Agent Preparation Cron
+
+Add this to your crontab to have the agent prepare a brief every Friday at 5 PM:
+
+```bash
+# Weekly review prep — every Friday at 5 PM
+0 17 * * 5 /Users/$(whoami)/.openclaw/workspace/scripts/weekly-review-prep.sh
+```
+
+Create the script at `~/.openclaw/workspace/scripts/weekly-review-prep.sh`:
+
+```bash
 #!/usr/bin/env bash
 set -euo pipefail
 
-WORKSPACE="/Users/spirittree/.openclaw/workspace"
-STATUS_FILE="$WORKSPACE/content/channel-status.json"
-INFRA_CHECK="$WORKSPACE/scripts/infra-functional-check.sh"
-MAX_AGE_SECONDS=4500  # 75 minutes
+WORKSPACE="$HOME/.openclaw/workspace"
+WEEK=$(date +%Y-W%V)
+OUTPUT="$WORKSPACE/memory/weekly-brief-$WEEK.md"
 
-needs_refresh=true
-if [[ -f "$STATUS_FILE" ]]; then
-  now=$(date +%s)
-  mtime=$(stat -f %m "$STATUS_FILE" 2>/dev/null || echo 0)
-  age=$((now - mtime))
-  if [[ $age -le $MAX_AGE_SECONDS ]]; then
-    needs_refresh=false
+echo "# Weekly Brief — Week $WEEK" > "$OUTPUT"
+echo "**Prepared:** $(date)" >> "$OUTPUT"
+echo "" >> "$OUTPUT"
+
+# Append memory files from this week
+MONDAY=$(date -v-mon +%Y-%m-%d 2>/dev/null || date -d "last monday" +%Y-%m-%d)
+echo "## Memory Files This Week" >> "$OUTPUT"
+for day in $(seq 0 6); do
+  DATE=$(date -v+"${day}d" -v"$MONDAY" +%Y-%m-%d 2>/dev/null || date -d "$MONDAY +${day} days" +%Y-%m-%d 2>/dev/null || echo "")
+  FILE="$WORKSPACE/memory/$DATE.md"
+  if [[ -f "$FILE" ]]; then
+    echo "" >> "$OUTPUT"
+    echo "### $DATE" >> "$OUTPUT"
+    cat "$FILE" >> "$OUTPUT"
   fi
-fi
+done
 
-if [[ "$needs_refresh" == true ]]; then
-  "$INFRA_CHECK" >/dev/null 2>&1 || true
-fi
+echo "Weekly review brief prepared at $OUTPUT"
+```
 
-# --- Phantom success check: tweet count verification ---
-TWEET_STATE="$WORKSPACE/content/.tweet-count-state"
-N8N_KEY=$(grep N8N_API_KEY "$WORKSPACE/.env" 2>/dev/null | cut -d= -f2- || true)
-PHANTOM_ALERT=""
+Make it executable:
+```bash
+chmod +x ~/.openclaw/workspace/scripts/weekly-review-prep.sh
+```
 
-if command -v xurl &>/dev/null && [[ -n "$N8N_KEY" ]]; then
-  # Get current tweet count
-  CURRENT_COUNT=$(xurl whoami 2>/dev/null | python3 -c "import json,sys; print(json.load(sys.stdin)['data']['public_metrics']['tweet_count'])" 2>/dev/null || echo "")
-  
-  if [[ -n "$CURRENT_COUNT" ]]; then
-    # Read last known count
-    LAST_COUNT=""
-    if [[ -f "$TWEET_STATE" ]]; then
-      LAST_COUNT=$(cat "$TWEET_STATE")
-    fi
-    
-    # Check if Tweet Poster reported success recently
-    TWEET_WF_ID="33uLlOWB1FQsjoRj"
-    LAST_TWEET_EXEC=$(curl -s "http://localhost:5678/api/v1/executions?limit=5&workflowId=$TWEET_WF_ID" \
-      -H "X-N8N-API-KEY: $N8N_KEY" 2>/dev/null | \
-      python3 -c "
-import json,sys
-d=json.load(sys.stdin)
-for ex in d.get('data',[]):
-    if ex.get('status')=='success':
-        print(ex.get('startedAt','')[:10])
-        break
-" 2>/dev/null || echo "")
-    
-    TODAY=$(date +%Y-%m-%d)
-    YESTERDAY=$(date -v-1d +%Y-%m-%d 2>/dev/null || date -d "yesterday" +%Y-%m-%d 2>/dev/null || echo "")
-    
-    # If n8n reported success today or yesterday but count hasn't changed
-    if [[ -n "$LAST_COUNT" && "$CURRENT_COUNT" == "$LAST_COUNT" ]]; then
-      if [[ "$LAST_TWEET_EXEC" == "$TODAY" || "$LAST_TWEET_EXEC" == "$YESTERDAY" ]]; then
-        PHANTOM_ALERT="🚨 PHANTOM SUCCESS: Tweet Poster reports success but tweet_count unchanged ($CURRENT_COUNT). X API likely blocked."
-      fi
-    fi
-    
-    # Update state file
-    echo "$CURRENT_COUNT" > "$TWEET_STATE"
-  fi
-fi
+---
 
-export PHANTOM_ALERT="$PHANTOM_ALERT"
+## The Review Session Flow
 
-python3 <<'PY'
-import json, os
-from pathlib import Path
+### Before You Sit Down
 
-ws = Path('/Users/spirittree/.openclaw/workspace')
-p = ws / 'content/channel-status.json'
-ki_path = ws / 'content/known-issues.json'
-phantom_alert = os.environ.get('PHANTOM_ALERT', '')
+Your agent has already prepared the brief. Open it:
 
-if not p.exists():
-    print('HEARTBEAT_OK')
-    raise SystemExit(0)
+```
+cat ~/.openclaw/workspace/memory/weekly-brief-$(date +%Y-W%V).md
+```
 
-try:
-    data = json.loads(p.read_text())
-except Exception:
-    print('HEARTBEAT_OK')
-    raise SystemExit(0)
+Or in Telegram:
 
-# Load known issues for suppression
-known_patterns = set()
-if ki_path.exists():
-    try:
-        ki = json.loads(ki_path.read_text())
-        for issue in ki.get('known_issues', []):
-            pat = issue.get('pattern', '')
-            if pat:
-                known_patterns.add(pat)
-    except Exception:
-        pass
+```
+Run the weekly review.
+```
 
-alert = data.get('alert', '')
-if alert:
-    checks = data.get('checks', {})
+### During the Review (15-20 minutes)
 
-    # Parse check names from alert string
-    # Format: "INFRA ALERT: n8nErrorRate; queueMovement failing 2+ consecutive checks"
-    alert_check_names = set()
-    # Strip prefix and suffix
-    core = alert.replace('INFRA ALERT: ', '').split(' failing ')[0]
-    for name in core.split('; '):
-        name = name.strip()
-        if name:
-            alert_check_names.add(name)
+**Minutes 1-5: Read the brief**
+Don't take notes yet. Just absorb what happened.
 
-    all_known = alert_check_names and alert_check_names.issubset(known_patterns)
+**Minutes 5-10: Add judgment**
+Tell your agent what matters:
+```
+The Substack article was the most important thing. The Discord bot can wait until Q2.
+The revenue dip is expected — January is always slow.
+```
 
-    if all_known:
-        # Suppressed — all alerts are known issues. Report OK with info note.
-        msg = 'HEARTBEAT_OK (known issues suppressed: ' + ', '.join(sorted(alert_check_names)) + ')'
-        if phantom_alert:
-            print(phantom_alert)  # Phantom success is NEVER suppressed
-        else:
-            print(msg)
-    else:
-        # New or mixed alerts — surface them
-        n8n = checks.get('n8nErrorRate', {})
-        qm = checks.get('queueMovement', {})
+**Minutes 10-15: Set priorities**
+```
+This week I want to focus on:
+1. [TOP PRIORITY]
+2. [SECOND PRIORITY]
+3. [NICE TO HAVE]
+Nothing else unless something breaks.
+```
 
-        parts = [f"🚨 {alert}"]
-        if n8n:
-            parts.append(f"n8n errors: {n8n.get('errors', '?')}/{n8n.get('total', '?')} ({n8n.get('rate', '?')}%)")
-        if qm:
-            t = qm.get('tweetQueue', {})
-            b = qm.get('botanicalQueue', {})
-            parts.append(
-                f"queues: tweet {t.get('unposted', '?')} unposted, botanical {b.get('unposted', '?')} unposted"
-            )
+**Minutes 15-20: Write it down**
+Ask your agent to update MEMORY.md with this week's summary:
 
-        print(' | '.join(parts))
-else:
-    if phantom_alert:
-        print(phantom_alert)
-    else:
-        print('HEARTBEAT_OK')
-PY
+```
+Add this week's summary to MEMORY.md:
+- Week of [DATE]: [1-2 sentences about what happened and what shifted]
+- Current priority: [TOP PRIORITY]
+- Open question: [anything unresolved that needs to carry forward]
+```
+
+---
+
+## Goal Tracking Template
+
+Keep a rolling 90-day view in `~/.openclaw/workspace/GOALS.md`:
+
+```markdown
+# GOALS.md — Rolling 90-Day View
+
+**Updated:** [DATE]
+
+## 90-Day Horizon
+What do I want to be true in 90 days?
+- [ ] [GOAL 1]
+- [ ] [GOAL 2]
+- [ ] [GOAL 3]
+
+## This Month
+What needs to happen this month?
+- [ ] [MILESTONE 1]
+- [ ] [MILESTONE 2]
+
+## This Week
+What am I actually doing?
+- [ ] [TASK 1]
+- [ ] [TASK 2]
+- [ ] [TASK 3]
+
+## Paused / Deprioritized
+Things I've consciously decided to ignore:
+- [ITEM] — paused because [REASON] — revisit [DATE]
+```
+
+Ask your agent to update GOALS.md at the end of each review:
+```
+Update GOALS.md based on our review. This week's focus is [X].
+Move [Y] to Paused with reason "revisit in April."
+```
+
+---
+
+## What to Write in MEMORY.md
+
+Not everything belongs in long-term memory. Use this rule:
+
+**Write it down if:**
+- A major decision was made (especially one you'll want to understand later)
+- Something changed direction
+- A system broke and was fixed in a non-obvious way
+- Revenue hit a milestone
+- A relationship (client, collaborator) had a significant interaction
+
+**Let it go if:**
+- Routine task completed successfully
+- Minor bug fixed
+- Social media post published
+
+**Format for MEMORY.md entries:**
+```markdown
+## [DATE] — [1-sentence description]
+
+[2-3 sentences: what happened, why it matters, what changed]
+
+**Tags:** [system/revenue/content/relationships/direction]
+```
+
+---
+
+## Integration with Daily Memory
+
+The weekly review feeds from daily memory logs (`memory/YYYY-MM-DD.md`).
+
+Your agent writes daily logs automatically if you have Tid3pool (ops/journal agent) configured. If you don't:
+
+```bash
+# Add to crontab — daily log init at 8 AM
+0 8 * * * echo "# $(date +%Y-%m-%d)\n\n## Today's Context\n\n" >> ~/.openclaw/workspace/memory/$(date +%Y-%m-%d).md
+```
+
+---
+
+## Troubleshooting
+
+**Review feels too long**
+Keep it under 20 minutes by ruthlessly cutting "should we revisit [old thing]?" conversations. The review is for carrying forward, not for relitigating past decisions.
+
+**Agent doesn't know what happened this week**
+Daily memory logs are probably not being written. Check if Tid3pool is running, or set up the daily log cron above.
+
+**Too many open projects**
+Apply the constraint: maximum 3 active projects at a time. Move anything beyond 3 to Paused in GOALS.md. This is the most common productivity failure.
+
+**Review frequency**
+Weekly is the minimum. Some operators do Friday/Monday pairs: Friday to close the week, Monday to confirm priorities before execution starts.
+
+---
+
+*Your best week starts with a clear head about what the last one was.*
