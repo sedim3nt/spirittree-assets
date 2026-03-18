@@ -1,3 +1,27 @@
+# Content Pipeline Templates — Publish Across 5 Platforms on Autopilot
+
+**Version:** 1.0 | **Level:** Intermediate | **Setup Time:** 45-60 minutes
+
+The complete content operations system extracted from a pipeline that published 6 Substack articles, 17 tweets, and 2 Facebook posts in a single day. Queue-based publishing, platform-specific templates, cron automation, and the 1-piece → 5-platform repurposing workflow.
+
+---
+
+## What's In This Package
+
+- Queue-based publishing system with JSON templates (why queues beat posting on impulse)
+- Platform templates: Substack, X/Twitter, LinkedIn, Facebook, Instagram
+- Cron job configurations for automated posting schedules
+- Editorial calendar template (structured JSON format)
+- 1-piece → 5-platform content repurposing workflow
+- Voice consistency framework (keep your AI writing like you)
+- Analytics tracking template (what to measure, where)
+- Distribution checklist (mandatory by content type)
+- Cover image generation workflow
+- Content QA checklist before publishing
+- Anti-phantom-success rule: verify content actually landed
+
+---
+
 # Content Pipeline Templates
 ### The System That Publishes Across 5 Platforms While You Sleep
 
