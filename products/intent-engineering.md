@@ -48,7 +48,7 @@ Prompt Craft and Context Engineering are about the *message*. Intent Engineering
 
 Your agent will encounter situations where values conflict. Without a hierarchy, it defaults to whatever feels reasonable — which may not match what you actually want.
 
-### The SpiritTree Value Hierarchy
+### The AgentOrchard Value Hierarchy
 
 ```
 1. Sovereignty — own the stack, own the knowledge, own the output. No vendor lock-in.
