@@ -253,7 +253,7 @@ Not everything belongs in long-term memory. Use this rule:
 
 The weekly review feeds from daily memory logs (`memory/YYYY-MM-DD.md`).
 
-Your agent writes daily logs automatically if you have Tid3pool (ops/journal agent) configured. If you don't:
+Your agent writes daily logs automatically if you have Grove (ops/journal agent) configured. If you don't:
 
 ```bash
 # Add to crontab — daily log init at 8 AM
@@ -268,7 +268,7 @@ Your agent writes daily logs automatically if you have Tid3pool (ops/journal age
 Keep it under 20 minutes by ruthlessly cutting "should we revisit [old thing]?" conversations. The review is for carrying forward, not for relitigating past decisions.
 
 **Agent doesn't know what happened this week**
-Daily memory logs are probably not being written. Check if Tid3pool is running, or set up the daily log cron above.
+Daily memory logs are probably not being written. Check if Grove is running, or set up the daily log cron above.
 
 **Too many open projects**
 Apply the constraint: maximum 3 active projects at a time. Move anything beyond 3 to Paused in GOALS.md. This is the most common productivity failure.
