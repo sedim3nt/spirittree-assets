@@ -2,7 +2,7 @@
 
 **Version:** 1.0 | **Level:** Intermediate | **Setup Time:** 45-60 minutes
 
-A complete content operation powered by AI. Substack articles, social posts, cross-platform publishing, editorial calendar management. Built on the Glaci3r content agent architecture — the same system that published 13 Substack articles in 2 weeks.
+A complete content operation powered by AI. Substack articles, social posts, cross-platform publishing, editorial calendar management. Built on the Sage content agent architecture — the same system that published 13 Substack articles in 2 weeks.
 
 ---
 
