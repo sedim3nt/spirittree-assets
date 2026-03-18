@@ -1,3 +1,26 @@
+# OpenClaw Quick-Start Guide — From Zero to First Conversation in 30 Minutes
+
+**Version:** 1.0 | **Level:** Beginner | **Setup Time:** 30 minutes
+
+Every step you need for a production-ready OpenClaw setup. No hand-waving — every command is real and tested. From `brew install` to your first cron job, with the SOUL.md template and Telegram bot configuration included.
+
+---
+
+## What's In This Package
+
+- Complete installation walkthrough (Homebrew, npm, manual)
+- SOUL.md template (copy-paste ready, customize in 10 minutes)
+- MEMORY.md setup (what to put in your initial memory file)
+- Telegram bot creation and OpenClaw integration
+- First conversation guide (how to test your setup is working)
+- Gateway start/stop/status commands
+- LaunchAgent config for auto-start on macOS login
+- First cron job setup (daily 7 AM briefing)
+- 3-month phased roadmap (what to add each month)
+- Common setup errors and fixes
+
+---
+
 # OpenClaw Quick-Start Guide
 ## From Zero to First Conversation in 30 Minutes
 
