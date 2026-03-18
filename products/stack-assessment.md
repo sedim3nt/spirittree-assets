@@ -124,7 +124,7 @@ This framework maps the complete surface area of an autonomous AI operation. Use
 - No sub-agent delegation
 
 **What they're missing:**
-- Clear agent roles with defined scope (like the Sedim3nt/Riptid3/Granit3 structure)
+- Clear agent roles with defined scope (like the Orchard/Rowan/Forrest structure)
 - Delegation protocols (when to spawn a sub-agent vs. handle directly)
 - Error recovery procedures (what happens when a sub-agent fails)
 - Cross-agent coordination (BULLETIN.md or equivalent)
