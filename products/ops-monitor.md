@@ -2,7 +2,7 @@
 
 **Version:** 1.0 | **Level:** Intermediate | **Setup Time:** 30-45 minutes
 
-Your AI ops agent that never sleeps. Monitors system health, auto-restarts failing services, runs heartbeat checks, verifies deploys. Built on the Tid3pool ops agent architecture.
+Your AI ops agent that never sleeps. Monitors system health, auto-restarts failing services, runs heartbeat checks, verifies deploys. Built on the Grove ops agent architecture.
 
 ---
 
