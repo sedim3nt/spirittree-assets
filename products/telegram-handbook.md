@@ -2,7 +2,7 @@
 
 **Version:** 1.0 | **Level:** Beginner | **Setup Time:** 30-45 minutes
 
-Telegram is the best interface for running an AI agent operation. This handbook covers everything from creating your first bot to organizing a fully structured multi-topic workspace — the same setup running SpiritTree's six-channel agent command center.
+Telegram is the best interface for running an AI agent operation. This handbook covers everything from creating your first bot to organizing a fully structured multi-topic workspace — the same setup running AgentOrchard's six-channel agent command center.
 
 ---
 
@@ -50,7 +50,7 @@ Open Telegram and search for `@BotFather` (verified, blue checkmark).
 ```
 
 BotFather will ask:
-1. **Name** — the display name: `SpiritTree Assistant`
+1. **Name** — the display name: `AgentOrchard Assistant`
 2. **Username** — the @handle, must end in "bot": `spirittree_ops_bot`
 
 BotFather returns your token:
@@ -88,7 +88,7 @@ A supergroup with Forum Topics gives you organized, persistent channels for diff
 ### Step 1: Create the Supergroup
 
 1. Tap the pencil icon → **New Group**
-2. Name it: `[YourName] Operations` (e.g., `SpiritTree Ops`)
+2. Name it: `[YourName] Operations` (e.g., `AgentOrchard Ops`)
 3. Add at least one other account (required to create a group — you can remove them later)
 4. Tap **Create**
 
@@ -142,7 +142,7 @@ Edit `~/.openclaw/config.json`:
       "groups": [
         {
           "id": "-1002381931352",
-          "name": "SpiritTree Ops",
+          "name": "AgentOrchard Ops",
           "type": "forum",
           "topics": {
             "general": 1,
