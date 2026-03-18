@@ -1,3 +1,27 @@
+# OpenClaw Telegram Handbook — Multi-Topic Agent Operations
+
+**Version:** 1.0 | **Level:** Beginner | **Setup Time:** 30-45 minutes
+
+Telegram is the best interface for running an AI agent operation. This handbook covers everything from creating your first bot to organizing a fully structured multi-topic workspace — the same setup running SpiritTree's six-channel agent command center.
+
+---
+
+## What's In This Package
+
+- BotFather setup walkthrough (create bot, get token)
+- OpenClaw JSON config for Telegram integration
+- Forum Group setup with 6 dedicated topic channels
+- Bot admin permissions configuration
+- Topic organization strategy (what goes in each channel)
+- Cron delivery routing (route different outputs to different topics)
+- BULLETIN.md cross-topic coordination pattern
+- Migration guide: single DM → organized forum setup
+- Model-per-topic configuration (use cheaper models for monitoring)
+- Privacy and security settings for production use
+- Troubleshooting: webhook failures, message delivery issues, permission errors
+
+---
+
 # OpenClaw Telegram Handbook
 ## Complete Setup Guide for Multi-Topic Agent Operations
 
