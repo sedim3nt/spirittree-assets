@@ -1,3 +1,25 @@
+# Memory Blueprint — Complete Memory Architecture for AI Agents
+
+**Version:** 1.0 | **Level:** Advanced | **Setup Time:** 60-90 minutes
+
+The most comprehensive review of memory solutions for OpenClaw multi-agent setups — covering every option from native file-based memory to vector databases, ranked and benchmarked from real production use.
+
+---
+
+## What's In This Package
+
+- Ranked tier list of memory solutions (native, vector, external DB, hybrid)
+- Multi-agent architecture patterns (single workspace, shared memory, broadcast)
+- Memory configuration templates (MEMORY.md, memory/*.md, memorySearch config)
+- OpenClaw native memory system deep-dive with exact config options
+- Vector search setup (OpenAI embeddings + BM25 hybrid)
+- External memory options (Supabase, Mem0, custom solutions)
+- Cross-agent memory sharing patterns
+- Session memory compaction guide (what survives vs. what doesn't)
+- Performance benchmarks from real deployment
+
+---
+
 # Memory Solutions & Multi-Agent Architecture Compendium
 
 **Compiled:** 2026-03-14
