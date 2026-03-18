@@ -1,7 +1,7 @@
 # AI Cost Optimizer
 ### Cut Your AI Agent Costs by 80-97% Without Losing Quality
 
-*By SpiritTree — from an operation that runs 6 AI agents 24/7 on a single Mac Mini*
+*By AgentOrchard — from an operation that runs 6 AI agents 24/7 on a single Mac Mini*
 
 ---
 
@@ -150,7 +150,7 @@ guidelines: [500 words of guidelines]...
 
 **After (lean):**
 ```
-You are Riptid3, research agent for SpiritTree. 
+You are Rowan, research agent for AgentOrchard. 
 Role: web search, source analysis, knowledge extraction.
 Read AGENTS.md for full context. Only load files when needed for the current task.
 ```
@@ -302,4 +302,4 @@ If your agents process large batches (e.g., 50 emails, 200 data entries), use th
 
 ---
 
-© 2026 SpiritTree · spirittree.dev
+© 2026 AgentOrchard · agentorchard.dev
