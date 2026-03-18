@@ -24,7 +24,7 @@ The self-serve version of our $497-$1,997 Agent Blueprint consulting session. Wa
 # Agent Blueprint DIY Kit
 ### Map Your AI Operations in One Afternoon
 
-*By SpiritTree — the framework we use with consulting clients ($497-$1,997/session)*
+*By AgentOrchard — the framework we use with consulting clients ($497-$1,997/session)*
 
 ---
 
@@ -359,4 +359,4 @@ Book at: https://calendly.com/terraloam-eye/agent-consulting
 
 ---
 
-© 2026 SpiritTree · spirittree.dev
+© 2026 AgentOrchard · agentorchard.dev
