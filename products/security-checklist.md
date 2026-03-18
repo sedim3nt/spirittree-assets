@@ -1,3 +1,28 @@
+# OpenClaw Security Checklist — 10-Point Audit for Personal AI Ops
+
+**Version:** 1.0 | **Level:** Intermediate | **Setup Time:** 30 minutes
+
+Run this audit monthly or after any major configuration change. Each of the 10 points includes a real command and a fix-it instruction. A secure setup takes about 30 minutes to verify — and most problems people find are fixable in under 5.
+
+---
+
+## What's In This Package
+
+- 10-point security audit with real terminal commands for each check
+- File permissions audit (workspace, skills, secrets)
+- Skill review procedure (what to check before installing any skill)
+- Gateway configuration security (exposed ports, auth settings)
+- Memory access controls (what agents can read/write)
+- Prompt injection testing patterns
+- Network exposure review (what's listening on which ports)
+- Cron job audit (who scheduled what, and when)
+- Sub-agent permissions review
+- Secret scanning (find accidentally committed API keys)
+- SkillScan procedure for auditing any installed OpenClaw skill
+- Fix-it instructions for every finding (not just "here's the problem")
+
+---
+
 # OpenClaw Security Checklist
 ## 10-Point Audit for Personal AI Operations
 
