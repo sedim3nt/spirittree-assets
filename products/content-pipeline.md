@@ -25,7 +25,7 @@ The complete content operations system extracted from a pipeline that published 
 # Content Pipeline Templates
 ### The System That Publishes Across 5 Platforms While You Sleep
 
-*By SpiritTree — extracted from a pipeline that published 6 Substack articles, 17 tweets, and 2 Facebook posts in a single day*
+*By AgentOrchard — extracted from a pipeline that published 6 Substack articles, 17 tweets, and 2 Facebook posts in a single day*
 
 ---
 
@@ -432,4 +432,4 @@ echo "Posted: $TWEET"
 
 ---
 
-© 2026 SpiritTree · spirittree.dev
+© 2026 AgentOrchard · agentorchard.dev
