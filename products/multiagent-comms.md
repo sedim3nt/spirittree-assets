@@ -1,3 +1,28 @@
+# Multi-Agent Communication Architecture — OpenClaw Agent Coordination
+
+**Version:** 1.0 | **Level:** Advanced | **Setup Time:** 60-90 minutes
+
+The complete communication architecture for multi-agent OpenClaw systems. Covers how agents delegate to each other, share memory, handle handoffs, and coordinate across a single Telegram interface — from a single CEO agent all the way to a 6-agent swarm.
+
+---
+
+## What's In This Package
+
+- Single CEO + sub-agent delegation pattern (the recommended starting point)
+- Session spawning and management (`sessions_spawn`, `sessions_yield`)
+- Memory sharing across agents (shared workspace vs. isolated workspaces)
+- Handoff protocols (how agents pass context to each other)
+- Push-based completion (results auto-announce back — no polling)
+- BULLETIN.md cross-topic coordination system
+- Agent role definitions for clean delegation (no ambiguous ownership)
+- Communication failure recovery patterns
+- Multi-channel routing (different agents respond to different Telegram topics)
+- Load balancing across agent types
+- Trust and permission levels between agents
+- Production examples from a 6-agent system
+
+---
+
 # Multi-Agent Communication Architecture for OpenClaw
 
 **Compiled:** 2026-03-14
