@@ -2,7 +2,7 @@
 
 **Version:** 1.0 | **Level:** Intermediate | **Setup Time:** 30-45 minutes
 
-Your AI researcher that never sleeps. Monitors sources, synthesizes web research, tracks YouTube channels, and delivers briefings on the topics you care about. Built on the Riptid3 research agent architecture.
+Your AI researcher that never sleeps. Monitors sources, synthesizes web research, tracks YouTube channels, and delivers briefings on the topics you care about. Built on the Rowan research agent architecture.
 
 ---
 
