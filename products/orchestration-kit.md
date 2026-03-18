@@ -1,3 +1,28 @@
+# Multi-Agent Orchestration Kit — Build a Team of AI Agents That Work Together
+
+**Version:** 1.0 | **Level:** Advanced | **Setup Time:** 4-6 hours (full deployment)
+
+The complete architecture for building a team of specialized AI agents that coordinate, hand off work, share memory, and operate autonomously. Extracted from a 6-agent system running 24/7 in production. Not theory — this is the actual system.
+
+---
+
+## What's In This Package
+
+- 6 complete agent role definitions (copy-paste ready for your AGENTS.md)
+- 3-layer memory architecture (native files + search + external)
+- Workspace file templates: SOUL.md, AGENTS.md, USER.md, IDENTITY.md
+- Cron job templates for autonomous operation (daily digest, monitoring, content)
+- Blueprint coding pattern (how agents build software: 8-step protocol)
+- Handoff protocols (how agents delegate to each other cleanly)
+- Trade-off matrices for agent decision-making (4 core matrices)
+- FAILURE_MODEL.md template (know where agents fail)
+- Specification engineering guide (how to write tasks for sub-agents)
+- Trust levels between agents (what can delegate to what)
+- Production monitoring and self-healing setup
+- Mermaid architecture diagram for your own system design
+
+---
+
 # Multi-Agent Orchestration Kit
 ### Build a Team of AI Agents That Actually Work Together
 
