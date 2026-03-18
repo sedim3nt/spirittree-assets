@@ -26,7 +26,7 @@ The complete architecture for building a team of specialized AI agents that coor
 # Multi-Agent Orchestration Kit
 ### Build a Team of AI Agents That Actually Work Together
 
-*By SpiritTree — extracted from a 6-agent system that runs 24/7 in production*
+*By AgentOrchard — extracted from a 6-agent system that runs 24/7 in production*
 
 ---
 
@@ -61,24 +61,24 @@ One agent trying to do everything fails for the same reason one person doing eve
 
 | Agent | Codename | Role | Model | Monthly Cost |
 |-------|----------|------|-------|-------------|
-| CEO / Orchestrator | Sedim3nt 🦋 | Strategy, delegation, synthesis, client communication | Opus | ~$90 |
-| Researcher | Riptid3 🌊 | Web search, source analysis, knowledge extraction | Sonnet | ~$20 |
-| Coder | Granit3 🪨 | Build, debug, deploy, code review | Sonnet | ~$25 |
-| Content Writer | Glaci3r 🐯 | Articles, social posts, brand voice, copywriting | Sonnet | ~$15 |
-| Ops Manager | Tid3pool 🫧 | Email, monitoring, cron jobs, system health, daily logs | Sonnet | ~$10 |
-| Artist | Pigm3nt 🎨 | Image generation via OpenAI API | Haiku | ~$5 |
+| CEO / Orchestrator | Orchard 🦋 | Strategy, delegation, synthesis, client communication | Opus | ~$90 |
+| Researcher | Rowan 🌊 | Web search, source analysis, knowledge extraction | Sonnet | ~$20 |
+| Coder | Forrest 🪨 | Build, debug, deploy, code review | Sonnet | ~$25 |
+| Content Writer | Sage 🐯 | Articles, social posts, brand voice, copywriting | Sonnet | ~$15 |
+| Ops Manager | Grove 🫧 | Email, monitoring, cron jobs, system health, daily logs | Sonnet | ~$10 |
+| Artist | Blossom 🎨 | Image generation via OpenAI API | Haiku | ~$5 |
 
 **Total system cost:** ~$165/month + infrastructure
 
 ### The Hierarchy
 
 ```
-Sedim3nt (CEO) — Makes strategic decisions, delegates tasks
-  ├── Riptid3 (Research) — Feeds intelligence to CEO and other agents
-  ├── Granit3 (Coding) — Builds what the CEO specs
-  ├── Glaci3r (Content) — Writes what the CEO assigns
-  ├── Tid3pool (Ops) — Keeps everything running
-  └── Pigm3nt (Artist) — Creates visuals on request from any agent
+Orchard (CEO) — Makes strategic decisions, delegates tasks
+  ├── Rowan (Research) — Feeds intelligence to CEO and other agents
+  ├── Forrest (Coding) — Builds what the CEO specs
+  ├── Sage (Content) — Writes what the CEO assigns
+  ├── Grove (Ops) — Keeps everything running
+  └── Blossom (Artist) — Creates visuals on request from any agent
 ```
 
 **Key principle:** The CEO agent doesn't do the work. It delegates, synthesizes, and makes decisions. Agents report back to the CEO with results.
@@ -437,16 +437,16 @@ Document your failures. Update monthly.
 Our convention for agent names:
 - Use element-related words (earth, water, air, wood, rock, metal)
 - Replace exactly one `e` with `3`
-- Examples: Sedim3nt, Riptid3, Granit3, Glaci3r, Tid3pool, Pigm3nt
+- Examples: Orchard, Rowan, Forrest, Sage, Grove, Blossom
 
 This is cosmetic but useful — consistent naming makes logs readable and gives each agent a distinct identity in conversation.
 
 **Suggested names for your agents:**
-- Orchestrator: Sedim3nt, Timb3r, B3drock
-- Research: Riptid3, Br3eze, Cyclon3
-- Code: Granit3, Quak3, Forg3
-- Content: Glaci3r, Emb3r, Pris3m
-- Ops: Tid3pool, Or3, P3bble
+- Orchestrator: Orchard, Timb3r, B3drock
+- Research: Rowan, Hazel, Cyclon3
+- Code: Forrest, Quak3, Forg3
+- Content: Sage, Emb3r, Pris3m
+- Ops: Grove, Or3, P3bble
 
 ---
 
@@ -474,4 +474,4 @@ Book at: https://calendly.com/terraloam-eye/agent-consulting
 
 ---
 
-© 2026 SpiritTree · spirittree.dev
+© 2026 AgentOrchard · agentorchard.dev
