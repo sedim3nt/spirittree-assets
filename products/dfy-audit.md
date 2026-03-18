@@ -215,7 +215,7 @@ If we identify structural issues beyond security (e.g., memory architecture that
 # OpenClaw Security Audit Report
 Client: [Name]
 Date: [Date]
-Auditor: SpiritTree Operations
+Auditor: AgentOrchard Operations
 
 ## Executive Summary
 [2-3 sentences: overall assessment, top findings, recommended priority]
@@ -300,4 +300,4 @@ Questions before booking? Message at [contact method] and expect a response with
 
 ---
 
-*Part of the SpiritTree professional services offering. See client-playbook.md for the full consulting service menu.*
+*Part of the AgentOrchard professional services offering. See client-playbook.md for the full consulting service menu.*
