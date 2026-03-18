@@ -1,7 +1,7 @@
 # The OpenClaw Hardening Guide
 ## A Complete Security Audit & Lockdown Checklist for AI Agent Deployments
 
-**By SpiritTree Operations**
+**By AgentOrchard Operations**
 **Version 2.0 — March 2026**
 **OWASP Agentic Security Initiative Aligned**
 
@@ -2500,16 +2500,16 @@ Understanding the full threat landscape helps you prioritize:
 
 ---
 
-## About SpiritTree
+## About AgentOrchard
 
-SpiritTree runs a production 8-agent AI operations stack — 24/7 across content, publishing, research, and system administration. This guide comes from real operational experience, not theory.
+AgentOrchard runs a production 8-agent AI operations stack — 24/7 across content, publishing, research, and system administration. This guide comes from real operational experience, not theory.
 
-For a done-for-you security audit of your OpenClaw deployment: [blueprint.spirittree.dev](https://blueprint.spirittree.dev)
+For a done-for-you security audit of your OpenClaw deployment: [blueprint.agentorchard.dev](https://blueprint.agentorchard.dev)
 
 ---
 
 *The network remembers what the empire forgets.*
-*— SpiritTree Operations*
+*— AgentOrchard Operations*
 
 ---
 
