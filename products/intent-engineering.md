@@ -1,3 +1,27 @@
+# Intent Engineering — Teach Your Agent What You Actually Want
+
+**Version:** 1.0 | **Level:** Intermediate | **Setup Time:** 45-60 minutes
+
+Most people give agents instructions. Intent Engineering gives agents *values*. The difference shows up in every edge case, every ambiguous decision, every time your agent acts without you watching. This framework is what separates an agent that follows rules from one that understands you.
+
+---
+
+## What's In This Package
+
+- The four disciplines of prompting (and where Intent Engineering fits)
+- Value hierarchy encoding (how to rank competing values)
+- Four trade-off matrices: Speed/Quality, Cost/Thoroughness, Growth/Sustainability, Autonomy/Safety
+- Decision boundary definitions (act autonomously vs. escalate)
+- 5-tier autonomy ladder with real examples
+- AGENTS.md before/after comparison (generic vs. intent-engineered)
+- Organizational values template with 3 example implementations
+- The "specification engineering" method for writing agent tasks
+- How to test if your agent has actually internalized your intent
+- Common intent failures (and how to diagnose them)
+- Intent drift: how to catch when agents start optimizing for the wrong things
+
+---
+
 # Intent Engineering
 ## The Complete Framework for Teaching Agents What You Actually Want
 
