@@ -194,7 +194,7 @@ Telegram is the best interface for OpenClaw — persistent, mobile-accessible, a
 
 1. Message `@BotFather` on Telegram
 2. Send `/newbot`
-3. Name it (e.g., "SpiritTree Assistant")
+3. Name it (e.g., "AgentOrchard Assistant")
 4. Copy the token: `1234567890:ABCdef...`
 
 ### Configure OpenClaw
