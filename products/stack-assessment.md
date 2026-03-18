@@ -1,3 +1,27 @@
+# The 9-Layer Stack Assessment — Audit Any AI Operations Setup
+
+**Version:** 1.0 | **Level:** Advanced | **Setup Time:** 2-3 hours (for a full assessment)
+
+Map the complete surface area of your AI operation. This framework identifies gaps, prioritizes improvements, and builds a remediation roadmap across 9 layers — from hardware substrate to community output. Used in $497-$1,997 consulting engagements.
+
+---
+
+## What's In This Package
+
+- 9-layer framework (L0 Substrate through L8 Commons) with full definitions
+- Key diagnostic question for each layer
+- "What most people have" vs. "what they're missing" for each layer
+- Scoring rubric per layer (0–4 coverage score)
+- Priority ranking guide (which layers to fix first)
+- Gap analysis template (copy-paste into any doc)
+- 104 primitives reference list (every tool/concept that belongs in each layer)
+- Remediation roadmap template (90-day improvement plan)
+- Sample assessment from a real client engagement (anonymized)
+- Self-assessment vs. third-party assessment guide
+- Quarterly re-assessment protocol
+
+---
+
 # The 9-Layer Stack Assessment
 ## A Framework for Auditing and Improving Any AI Operations Setup
 
