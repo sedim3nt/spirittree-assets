@@ -1,3 +1,26 @@
+# Frontier Operations — Stay Current at the Edge of Human-Agent Work
+
+**Version:** 1.0 | **Level:** Advanced | **Setup Time:** 30 minutes (reading + templates)
+
+The boundary between what humans do and what agents do shifts every month. Frontier Ops is the practice of tracking that boundary and adjusting your operations before the rest of the market catches up. This is compounding leverage.
+
+---
+
+## What's In This Package
+
+- Boundary Sensing: monthly capability checklist (what changed this month)
+- Seam Design: human/agent handoff template for clean transitions
+- Failure Modeling: FAILURE_MODEL.md template with 6 failure categories
+- Capability Forecasting: quarterly assessment worksheet
+- Leverage Calibration: delegation decision matrix (what to delegate NOW)
+- Monthly review protocol with time estimates
+- Real examples: 3+ months of production boundary shifts documented
+- The "good enough" calibration framework (when AI quality crosses the delegation threshold)
+- Tools for tracking frontier developments (RSS, communities, benchmarks)
+- Case studies: tasks that moved from human to agent over 6 months
+
+---
+
 # Frontier Operations
 ## Staying Current at the Edge of Human-Agent Work
 
