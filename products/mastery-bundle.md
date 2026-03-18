@@ -227,7 +227,7 @@ The Intent Engineering guide in particular compounds across all other guides —
 
 ## Additional Resources
 
-Beyond this bundle, the full SpiritTree product catalog includes:
+Beyond this bundle, the full AgentOrchard product catalog includes:
 - Research and intelligence tools
 - Content production systems
 - Memory and knowledge management
