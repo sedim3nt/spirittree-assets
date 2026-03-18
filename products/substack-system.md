@@ -1,3 +1,27 @@
+# The Substack Publishing System — API-Driven Publishing & Distribution
+
+**Version:** 1.0 | **Level:** Intermediate | **Setup Time:** 45-60 minutes
+
+Automate your entire Substack operation. This guide covers SID cookie auth, programmatic draft creation with HTML formatting rules, scheduled publishing, byline configuration, and auto-distribution to X, Facebook, and Bluesky — the exact pipeline that published 13 articles in one month.
+
+---
+
+## What's In This Package
+
+- SID cookie extraction guide (how to auth with Substack API)
+- Draft creation API — full endpoint reference with HTML formatting rules
+- Publish API — schedule, send to all, or email-only configuration
+- Byline and author configuration
+- Cross-posting scripts for X/Twitter, Facebook, and Bluesky
+- Editorial calendar template (JSON format)
+- Cover image generation workflow (automated OpenAI image gen)
+- Quality checklist (double-encoding detection, formatting verification)
+- Anti-phantom-success rule: verify articles actually published
+- Growth tactics: SEO, social proof, subscriber conversion
+- Troubleshooting: SID expiry, HTML entity encoding, byline errors
+
+---
+
 # The Substack Publishing System
 ## API-Driven Drafting, Publishing, and Cross-Platform Distribution
 
