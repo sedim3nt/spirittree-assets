@@ -1,3 +1,29 @@
+# OpenClaw Mastery Bundle — The Complete Guide to Autonomous AI Ops
+
+**Version:** 1.0 | **Level:** Beginner → Advanced | **Setup Time:** Progressive (weeks 1-12)
+
+Ten comprehensive guides. One complete system. Everything you need to build, secure, and scale an AI operation that works while you sleep — structured as a learning path from zero to production mastery.
+
+---
+
+## What's In This Package
+
+- **Quick-Start Guide** — From zero to first conversation in 30 minutes
+- **Security Checklist** — 10-point audit for personal AI operations
+- **Model Guide** — Choosing the right AI model for every task
+- **Telegram Handbook** — Complete multi-topic agent workspace setup
+- **Buying Guide** — 10-criteria checklist for evaluating AI tools
+- **Substack Publishing System** — API-driven publishing and distribution
+- **Open Source Contribution System** — From issue to merged PR
+- **Client Playbook** — Full consulting delivery system
+- **Stack Assessment** — 9-layer framework for auditing AI setups
+- **Frontier Operations** — Staying current at the edge of human-agent work
+- **Intent Engineering** — Teaching agents what you actually want
+- Learning path by experience level (Beginner / Intermediate / Advanced / Content / Developer)
+- Visual architecture map of how the guides work together
+
+---
+
 # OpenClaw Mastery Bundle
 ## The Complete Guide to Autonomous AI Operations
 
