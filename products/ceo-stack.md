@@ -302,7 +302,7 @@ Examples:
 ```
 
 **What to customize:**
-- Give your agent a name (we use codenames: Sedim3nt, Riptid3, Granit3, etc.)
+- Give your agent a name (we use codenames: Orchard, Rowan, Forrest, etc.)
 - Write mantras that reflect your actual business philosophy
 - They should be memorable enough for the agent to apply in edge cases
 
