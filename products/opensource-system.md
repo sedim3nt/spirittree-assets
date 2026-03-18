@@ -1,3 +1,26 @@
+# The Open Source Contribution System — From Issue to Merged PR
+
+**Version:** 1.0 | **Level:** Intermediate | **Setup Time:** 30-45 minutes
+
+Systematic open source contribution using `gh` CLI and AI agents. Covers issue filtering, repo evaluation, PR generation, and maintainer communication — the framework for building reputation and leverage in the communities that matter.
+
+---
+
+## What's In This Package
+
+- Issue discovery workflow (`gh issue list` filters and search patterns)
+- Repository evaluation framework (7 criteria: activity, community, impact, etc.)
+- PR generation workflow with agent-assisted code writing
+- Documentation improvement patterns (high-merge-rate contribution type)
+- Commit message conventions (Conventional Commits format)
+- Maintainer etiquette guide (how to communicate without being annoying)
+- Contribution tracking template (portfolio spreadsheet)
+- Reputation-building strategy (where to focus for maximum signal)
+- `gh` CLI command reference for the full contribution workflow
+- First-contribution checklist (for new contributors to any repo)
+
+---
+
 # The Open Source Contribution System
 ## From Issue Discovery to Merged PR — An Agent-Assisted Workflow
 
