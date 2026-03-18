@@ -1,3 +1,26 @@
+# Agent Blueprint DIY Kit — Map Your AI Operations in One Afternoon
+
+**Version:** 1.0 | **Level:** Beginner | **Setup Time:** 2-4 hours (self-assessment)
+
+The self-serve version of our $497-$1,997 Agent Blueprint consulting session. Walk through the same process: map your workflows, score automation potential, prioritize what to build first, and leave with a clear 90-day AI operations roadmap for your specific business.
+
+---
+
+## What's In This Package
+
+- Workflow inventory template (list every recurring task you do)
+- Automation potential scoring rubric (5 criteria, 0-20 scale)
+- Priority matrix (what to automate first and why)
+- Tool selection guide (which OpenClaw tool matches each workflow type)
+- ROI estimation worksheet (calculate your actual time savings)
+- 90-day implementation roadmap template
+- Agent role design worksheet (what kind of agent do you need?)
+- "Should this be automated?" decision tree
+- Common mistakes guide (what consultants see clients do wrong)
+- Self-assessment vs. hiring a consultant — when each makes sense
+
+---
+
 # Agent Blueprint DIY Kit
 ### Map Your AI Operations in One Afternoon
 
